@@ -1,0 +1,21 @@
+# Usa una imagen base que contenga Java
+FROM camunda/connectors-bundle:0.2.0
+
+# Directorio de trabajo
+WORKDIR /opt/app
+
+# Copia el archivo JAR al contenedor
+COPY target/openweather-api-0.1.0-SNAPSHOT.jar connector.jar
+
+# Copia el archivo de entorno (env.txt) al contenedor
+COPY env.txt env.txt
+
+# Comando para ejecutar la aplicación
+CMD ["java", "-jar", "connector.jar"]
+
+# Define las variables de entorno según el archivo env.txt
+ENV FILE_ENV /opt/app/env.txt
+RUN env $(cat $FILE_ENV | xargs) 
+
+# Limpia después de la ejecución
+RUN rm $FILE_ENV
