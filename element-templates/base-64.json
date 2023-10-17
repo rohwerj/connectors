@@ -1,0 +1,56 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Get Weather Forecast",
+  "id": "d0217850-b338-42ba-bcaa-1c20d16670b7",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "inputs",
+      "description": "Base 64 image.",
+      "type": "String",
+      "value": "=inputs",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "inputs"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "model_id",
+      "description": "Type of model.",
+      "type": "String",
+      "value": "=model_id",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "model_id"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Result Variable",
+      "description": "Name of variable to store the response in",
+      "group": "output",
+      "type": "String",
+      "value": "resultVariable",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultVariable"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "io.camunda:weather-api:1",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      }
+    }
+  ]
+}
