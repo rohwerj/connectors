@@ -6,10 +6,7 @@ public class Base64Request {
 
   private String inputs;
   private String model_id;
-  private String units;
-  @Secret
-  private String apiKey;
-
+  
    public String getInputs() {
     return inputs;
   }
@@ -26,14 +23,10 @@ public class Base64Request {
     this.model_id = model_id;
   }
 
-  public String getUnits() { return units; }
-
-  public void setUnits(String units) { this.units = units; }
-
-  public String getApiKey() { return apiKey; }
-
-  public void setApiKey(String apiKey) { this.apiKey = apiKey; }
-
+  @Override
+  public String toString() {
+    return "Base64Request [inputs=" + inputs + ", model_id=" + model_id + "]";
+  }
 
   @Override
   public int hashCode() {
@@ -41,8 +34,6 @@ public class Base64Request {
     int result = 1;
     result = prime * result + ((inputs == null) ? 0 : inputs.hashCode());
     result = prime * result + ((model_id == null) ? 0 : model_id.hashCode());
-    result = prime * result + ((units == null) ? 0 : units.hashCode());
-    result = prime * result + ((apiKey == null) ? 0 : apiKey.hashCode());
     return result;
   }
 
@@ -65,22 +56,7 @@ public class Base64Request {
         return false;
     } else if (!model_id.equals(other.model_id))
       return false;
-    if (units == null) {
-      if (other.units != null)
-        return false;
-    } else if (!units.equals(other.units))
-      return false;
-    if (apiKey == null) {
-      if (other.apiKey != null)
-        return false;
-    } else if (!apiKey.equals(other.apiKey))
-      return false;
     return true;
   }
 
-  @Override
-  public String toString() {
-    return "Base64Request [inputs=" + inputs + ", model_id=" + model_id + ", units=" + units + ", apiKey=" + apiKey
-        + "]";
-  }
 }

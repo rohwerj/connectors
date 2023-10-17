@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 @OutboundConnector(
-        name = "OpenWeatherAPI", inputVariables = {"inputs", "model_id", "units", "apiKey"}, type = "io.camunda:weather-api:1")
+        name = "OpenWeatherAPI", inputVariables = {"inputs", "model_id"}, type = "io.camunda:weather-api:1")
 public class Base64Function implements OutboundConnectorFunction {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
@@ -27,14 +27,12 @@ public class Base64Function implements OutboundConnectorFunction {
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
     var connectorRequest = context.getVariablesAsType(Base64Request.class);
-    LOGGER.info("Pre-secret replacement: " + connectorRequest.toString());
     context.replaceSecrets(connectorRequest);
       return executeConnector(connectorRequest);
   }
 
   private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
-    System.out.println("Executing my connector with request ");
-    LOGGER.info("1");
+    LOGGER.info("Executing my connector with request");
     String urlString = "https://api.pruebas.isipoint.co:8093";
     URL url = new URL(urlString);
     HttpURLConnection http = (HttpURLConnection)url.openConnection();
@@ -46,14 +44,11 @@ public class Base64Function implements OutboundConnectorFunction {
 
     // Configurar para permitir enviar datos en la solicitud
     http.setDoOutput(true);
-    LOGGER.info("2");
 
     // Construir el cuerpo de la solicitud en formato JSON
     ObjectMapper objectMapper = new ObjectMapper();
     String inputs = connectorRequest.getInputs();
     String modelId = connectorRequest.getModel_id();
-    LOGGER.info("inputs: {}",inputs);
-    LOGGER.info("modelId: {}",modelId);
 
     // Crear un objeto JSON con los campos "inputs" y "model_id"
     ObjectNode requestBody = objectMapper.createObjectNode();
@@ -62,28 +57,27 @@ public class Base64Function implements OutboundConnectorFunction {
 
      // Convertir el objeto JSON en una cadena
      String requestBodyString = objectMapper.writeValueAsString(requestBody);
-    LOGGER.info("requestBodyString: {}",requestBodyString);
-    
+
      // Escribir los datos en el cuerpo de la solicitud
      try (OutputStream os = http.getOutputStream()) {
          byte[] input = requestBodyString.getBytes("utf-8");
          os.write(input, 0, input.length);
      }
-     
+        
     http.disconnect();
-    String weatherReport;
+    String documentInformation;
     if (http.getResponseCode() == 200) {
-        weatherReport = convertInputStreamToString(http.getInputStream());
-        LOGGER.info("Weather report: " + weatherReport);
+        documentInformation = convertInputStreamToString(http.getInputStream());
+        LOGGER.info("docuent information report: " + documentInformation);
     } else {
-        LOGGER.error("Error accessing OpenWeather API: " + http.getResponseCode() + " - " + http.getResponseMessage());
+        LOGGER.error("Error accessing documentBase64 API: " + http.getResponseCode() + " - " + http.getResponseMessage());
         // Throwing an exception will fail the job
         throw new IOException(http.getResponseMessage());
     }
 
     var result = new Base64Result();
-    result.setForecast(weatherReport);
-    result.setCode(http.getResponseCode());
+    result.setResult(documentInformation);
+    LOGGER.info("getting out of connector");
     return result;
   }
 

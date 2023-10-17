@@ -35,45 +35,11 @@
       }
     },
     {
-      "label": "Units",
-      "type": "Dropdown",
-      "value": "metric",
-      "description": "The units used in the weather forecast results",
-      "binding": {
-        "type": "zeebe:input",
-        "name": "units"
-      },
-      "choices": [
-        {
-          "name": "Imperial",
-          "value": "imperial"
-        },
-        {
-          "name": "Metric",
-          "value": "metric"
-        }
-      ]
-    },
-    {
-      "label": "OpenWeather API Key",
-      "description": "The OpenWeather API Key to use",
-      "type": "String",
-      "value": "=\"secrets.OPENWEATHER_API_KEY\"",
-      "feel": "optional",
-      "binding": {
-        "type": "zeebe:input",
-        "name": "apiKey"
-      },
-      "constraints": {
-        "notEmpty": true
-      }
-    },
-    {
       "label": "Result Variable",
       "description": "Name of variable to store the response in",
       "group": "output",
       "type": "String",
-      "value": "weather",
+      "value": "resultVariable",
       "binding": {
         "type": "zeebe:taskHeader",
         "key": "resultVariable"

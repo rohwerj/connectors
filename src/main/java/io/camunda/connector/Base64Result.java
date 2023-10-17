@@ -3,41 +3,39 @@ package io.camunda.connector;
 import java.util.Objects;
 
 public class Base64Result {
-
-  private String forecast;
-  private int code;
-
-  public void setCode(int code) { this.code = code; }
-
-  public int getCode() { return this.code; }
-
-  public String getForecast() {
-    return forecast;
-  }
-
-  public void setForecast(String forecast) {
-    this.forecast = forecast;
-  }
-
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    final Base64Result that = (Base64Result) o;
-    return Objects.equals(forecast, that.forecast);
-  }
-
+  private String result;
+	
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
   @Override
   public int hashCode() {
-    return Objects.hash(forecast);
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((this.result == null) ? 0 : this.result.hashCode());
+    return result;
   }
-
   @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Base64Result other = (Base64Result) obj;
+    if (result == null) {
+      if (other.result != null)
+        return false;
+    } else if (!result.equals(other.result))
+      return false;
+    return true;
+  }
+ 	@Override
   public String toString() {
-    return "OpenWeatherAPIResult [forecast=" + forecast + " code=" + code + "]";
+    return "Base64Result [result=" + result + "]";
   }
 }
