@@ -1,19 +1,19 @@
 version: '3'
 services:
-  connectors:
-    build:
-      dockerfile: DockerfileDocument
-    container_name: connectors
-    environment:
-      - FILE_ENV=/opt/app/env.txt
-    volumes:
-      - ./target/document-base64-api-0.1.0-SNAPSHOT:/opt/app/connector.jar
-      - ./env.txt:/opt/app/env.txt
-    networks:
-      - camunda-platform
-    depends_on:
-      - operate
-    command: ["java", "-jar", "connector.jar"]
+  # connectors:
+  #   build:
+  #     dockerfile: DockerfileDocument
+  #   container_name: connectors
+  #   environment:
+  #     - FILE_ENV=/opt/app/env.txt
+  #   volumes:
+  #     - ./target/document-base64-api-0.1.0-SNAPSHOT:/opt/app/connector.jar
+  #     - ./env.txt:/opt/app/env.txt
+  #   networks:
+  #     - camunda-platform
+  #   depends_on:
+  #     - operate
+  #   command: ["java", "-jar", "connector.jar"]
 
   zeebe:
     image: camunda/zeebe:${CAMUNDA_PLATFORM_VERSION}
