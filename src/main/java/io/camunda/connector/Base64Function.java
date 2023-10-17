@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 @OutboundConnector(
-        name = "OpenWeatherAPI", inputVariables = {"inputs", "model_id"}, type = "io.camunda:weather-api:1")
+        name = "DocumentAPI", inputVariables = {"inputs", "model_id"}, type = "io.camunda:document-api:1")
 public class Base64Function implements OutboundConnectorFunction {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);

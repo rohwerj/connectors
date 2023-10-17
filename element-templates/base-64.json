@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
-  "name": "Get Weather Forecast",
+  "name": "Get Document Information",
   "id": "d0217850-b338-42ba-bcaa-1c20d16670b7",
   "appliesTo": [
     "bpmn:ServiceTask"
@@ -47,7 +47,7 @@
     },
     {
       "type": "Hidden",
-      "value": "io.camunda:weather-api:1",
+      "value": "io.camunda:document-api:1",
       "binding": {
         "type": "zeebe:taskDefinition:type"
       }
