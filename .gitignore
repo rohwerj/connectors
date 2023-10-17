@@ -57,5 +57,5 @@ build/
 .vscode/
 
 # environment
-.env
+# .env
 request*.json
