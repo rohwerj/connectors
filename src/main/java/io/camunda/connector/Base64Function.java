@@ -16,9 +16,9 @@ import java.nio.charset.StandardCharsets;
 
 @OutboundConnector(
         name = "OpenWeatherAPI", inputVariables = {"latitude", "longitude", "units", "apiKey"}, type = "io.camunda:weather-api:1")
-public class OpenWeatherAPIFunction implements OutboundConnectorFunction {
+public class Base64Function implements OutboundConnectorFunction {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(OpenWeatherAPIFunction.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
 
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
