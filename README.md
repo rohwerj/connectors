@@ -88,3 +88,5 @@ To test the project, follow these steps:
         "inputs": "<imageinb64>", 
         "model_id": "santiagoperezs/notificacion-aviso-donut-cord"
 }
+
+# To start different process go to the folder start process and follow the instructions in the readme 
