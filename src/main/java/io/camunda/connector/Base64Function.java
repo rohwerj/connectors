@@ -15,7 +15,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @OutboundConnector(
-        name = "OpenWeatherAPI", inputVariables = {"latitude", "longitude", "units", "apiKey"}, type = "io.camunda:weather-api:1")
+        name = "OpenWeatherAPI", inputVariables = {"inputs", "model_id", "units", "apiKey"}, type = "io.camunda:weather-api:1")
 public class Base64Function implements OutboundConnectorFunction {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
@@ -30,7 +30,7 @@ public class Base64Function implements OutboundConnectorFunction {
 
   private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
     String urlString = "https://api.openweathermap.org/data/2.5/weather?appid=" + connectorRequest.getApiKey() +
-            "&lat=" + connectorRequest.getLatitude() + "&lon=" + connectorRequest.getLongitude()+"&units=" + connectorRequest.getUnits();
+            "&lat=" + connectorRequest.getInputs() + "&lon=" + connectorRequest.getModel_id()+"&units=" + connectorRequest.getUnits();
     URL url = new URL(urlString);
     HttpURLConnection http = (HttpURLConnection)url.openConnection();
     http.setRequestProperty("Accept", "application/json");

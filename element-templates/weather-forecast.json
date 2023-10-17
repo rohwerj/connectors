@@ -7,28 +7,28 @@
   ],
   "properties": [
     {
-      "label": "Latitude",
-      "description": "The latitude for the weather report location.",
+      "label": "inputs",
+      "description": "Base 64 image.",
       "type": "String",
-      "value": "=latitude",
+      "value": "=inputs",
       "feel": "optional",
       "binding": {
         "type": "zeebe:input",
-        "name": "latitude"
+        "name": "inputs"
       },
       "constraints": {
         "notEmpty": true
       }
     },
     {
-      "label": "Longitude",
-      "description": "The longitude for the weather report location.",
+      "label": "model_id",
+      "description": "Type of model.",
       "type": "String",
-      "value": "=longitude",
+      "value": "=model_id",
       "feel": "optional",
       "binding": {
         "type": "zeebe:input",
-        "name": "longitude"
+        "name": "model_id"
       },
       "constraints": {
         "notEmpty": true

@@ -73,7 +73,12 @@ To test the project, follow these steps:
   "longitude": "13.404954",
   "units": "metric"
 }
-
+{
+  "apiKey": "e24f08326da263be7e2e1602e40d4c96",
+  "inputs": "52.520008",
+  "model_id": "13.404954",
+  "units": "metric"
+}
 ### Output
 
 ```json
