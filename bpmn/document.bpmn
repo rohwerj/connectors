@@ -11,6 +11,7 @@
     <bpmn:sequenceFlow id="Flow_1ynb9gg" sourceRef="Activity_06gkkry" targetRef="Event_1fz4azw" />
     <bpmn:serviceTask id="Activity_06gkkry" name="Get document info" zeebe:modelerTemplate="d0217850-b338-42ba-bcaa-1c20d16670b7">
       <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:document-api:1" />
         <zeebe:ioMapping>
           <zeebe:input source="=inputs" target="inputs" />
           <zeebe:input source="=model_id" target="model_id" />
@@ -18,7 +19,6 @@
         <zeebe:taskHeaders>
           <zeebe:header key="resultVariable" value="resultVariable" />
         </zeebe:taskHeaders>
-        <zeebe:taskDefinition type="io.camunda:document-api:1" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_067hy04</bpmn:incoming>
       <bpmn:outgoing>Flow_1ynb9gg</bpmn:outgoing>
@@ -38,7 +38,7 @@
           <dc:Bounds x="410" y="143" width="20" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1qxizru_di" bpmnElement="Activity_06gkkry">
+      <bpmndi:BPMNShape id="Activity_0f8id0m_di" bpmnElement="Activity_06gkkry">
         <dc:Bounds x="240" y="78" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_067hy04_di" bpmnElement="Flow_067hy04">
