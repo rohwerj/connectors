@@ -22,13 +22,13 @@ public class Base64Function implements OutboundConnectorFunction {
 
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
-    var connectorRequest = context.getVariablesAsType(OpenWeatherAPIRequest.class);
+    var connectorRequest = context.getVariablesAsType(Base64Request.class);
     LOGGER.info("Pre-secret replacement: " + connectorRequest.toString());
     context.replaceSecrets(connectorRequest);
       return executeConnector(connectorRequest);
   }
 
-  private OpenWeatherAPIResult executeConnector(final OpenWeatherAPIRequest connectorRequest) throws IOException {
+  private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
     String urlString = "https://api.openweathermap.org/data/2.5/weather?appid=" + connectorRequest.getApiKey() +
             "&lat=" + connectorRequest.getLatitude() + "&lon=" + connectorRequest.getLongitude()+"&units=" + connectorRequest.getUnits();
     URL url = new URL(urlString);
@@ -47,7 +47,7 @@ public class Base64Function implements OutboundConnectorFunction {
         throw new IOException(http.getResponseMessage());
     }
 
-    var result = new OpenWeatherAPIResult();
+    var result = new Base64Result();
     result.setForecast(weatherReport);
     result.setCode(http.getResponseCode());
     return result;

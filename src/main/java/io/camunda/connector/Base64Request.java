@@ -4,7 +4,7 @@ import io.camunda.connector.api.annotation.Secret;
 
 import java.util.Objects;
 
-public class OpenWeatherAPIRequest {
+public class Base64Request {
 
   private String latitude;
   private String longitude;
@@ -42,7 +42,7 @@ public class OpenWeatherAPIRequest {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    OpenWeatherAPIRequest other = (OpenWeatherAPIRequest) obj;
+    Base64Request other = (Base64Request) obj;
     return Objects.equals(latitude, other.latitude)
         && Objects.equals(longitude, other.longitude)
         && Objects.equals(units, other.units)

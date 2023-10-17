@@ -2,7 +2,7 @@ package io.camunda.connector;
 
 import java.util.Objects;
 
-public class OpenWeatherAPIResult {
+public class Base64Result {
 
   private String forecast;
   private int code;
@@ -27,7 +27,7 @@ public class OpenWeatherAPIResult {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    final OpenWeatherAPIResult that = (OpenWeatherAPIResult) o;
+    final Base64Result that = (Base64Result) o;
     return Objects.equals(forecast, that.forecast);
   }
 
