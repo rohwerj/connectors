@@ -5,7 +5,7 @@ FROM camunda/connectors-bundle:0.2.0
 WORKDIR /opt/app
 
 # Copia el archivo JAR al contenedor
-COPY target/openweather-api-0.1.0-SNAPSHOT.jar connector.jar
+COPY target/document-base64-api-0.1.0-SNAPSHOT.jar connector.jar
 
 # Copia el archivo de entorno (env.txt) al contenedor
 COPY env.txt env.txt
