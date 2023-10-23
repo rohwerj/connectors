@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 @OutboundConnector(
-        name = "DocumentAPI", inputVariables = {"inputs", "model_id"}, type = "io.camunda:document-api:1")
+        name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda::upload-document:1")
 public class Base64Function implements OutboundConnectorFunction {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
@@ -32,7 +32,7 @@ public class Base64Function implements OutboundConnectorFunction {
   }
 
   private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
-    LOGGER.info("Executing my connector with request");
+    LOGGER.info("Executing my connector alfresco with request");
     String urlString = "https://api.pruebas.isipoint.co:8093";
     URL url = new URL(urlString);
     HttpURLConnection http = (HttpURLConnection)url.openConnection();
@@ -47,13 +47,12 @@ public class Base64Function implements OutboundConnectorFunction {
 
     // Construir el cuerpo de la solicitud en formato JSON
     ObjectMapper objectMapper = new ObjectMapper();
-    String inputs = connectorRequest.getInputs();
-    String modelId = connectorRequest.getModel_id();
+    byte[][] files = connectorRequest.getFiles();
+    String[] filesNames = connectorRequest.getFilesNames();
 
     // Crear un objeto JSON con los campos "inputs" y "model_id"
     ObjectNode requestBody = objectMapper.createObjectNode();
-    requestBody.put("inputs", inputs);
-    requestBody.put("model_id", modelId);
+
 
      // Convertir el objeto JSON en una cadena
      String requestBodyString = objectMapper.writeValueAsString(requestBody);
