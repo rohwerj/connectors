@@ -5,6 +5,7 @@ import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
 import io.camunda.dao.IDocumentProcessDao;
 import io.camunda.interfaces.IProcesoService;
+import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +20,17 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
+import java.util.Map;
+import org.apache.chemistry.opencmis.commons.enums.BindingType;
 
 @OutboundConnector(
         name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda::upload-document:1")
@@ -44,6 +52,8 @@ public class Base64Function implements OutboundConnectorFunction {
   
   @Value("${alfresco.repository.pass}")
   String alfrescoPass;
+
+ 
 
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
