@@ -3,8 +3,12 @@ package io.camunda.connector;
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
+import io.camunda.dao.IDocumentProcessDao;
+import io.camunda.interfaces.IProcesoService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,13 +21,21 @@ import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import org.apache.chemistry.opencmis.client.api.Session;
 
 @OutboundConnector(
         name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda::upload-document:1")
 public class Base64Function implements OutboundConnectorFunction {
-
+    private Session session;
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
+  @Autowired
+  private IProcesoService procesoService;
+  
+  @Autowired
+  private IDocumentProcessDao documentProcessDao;
 
+
+  
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
     var connectorRequest = context.getVariablesAsType(Base64Request.class);
