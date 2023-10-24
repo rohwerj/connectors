@@ -9,6 +9,7 @@ import io.camunda.interfaces.IProcesoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,8 +35,16 @@ public class Base64Function implements OutboundConnectorFunction {
   @Autowired
   private IDocumentProcessDao documentProcessDao;
 
-
+  // Set values from "application.properties" file
+  @Value("${alfresco.repository.url}")
+  String alfrescoUrl;
   
+  @Value("${alfresco.repository.user}")
+  String alfrescoUser;
+  
+  @Value("${alfresco.repository.pass}")
+  String alfrescoPass;
+
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
     var connectorRequest = context.getVariablesAsType(Base64Request.class);
