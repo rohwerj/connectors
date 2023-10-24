@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +33,7 @@ import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import java.util.Map;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
+import java.util.Properties;
 
 @OutboundConnector(
         name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda::upload-document:1")
@@ -53,7 +56,11 @@ public class Base64Function implements OutboundConnectorFunction {
   @Value("${alfresco.repository.pass}")
   String alfrescoPass;
 
- 
+  @PostConstruct
+  public void init()
+  {
+      String alfrescoBrowserUrl = alfrescoUrl + "/api/-default-/public/cmis/versions/1.1/browser";
+  }
 
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
@@ -64,50 +71,28 @@ public class Base64Function implements OutboundConnectorFunction {
 
   private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
     LOGGER.info("Executing my connector alfresco with request");
-    String urlString = "https://api.pruebas.isipoint.co:8093";
-    URL url = new URL(urlString);
-    HttpURLConnection http = (HttpURLConnection)url.openConnection();
-    // Configurar el método de solicitud como POST
-    http.setRequestMethod("POST");
-    // Configurar el tipo de contenido del cuerpo (en este caso, application/json)
-    http.setRequestProperty("Content-Type", "application/json");
-    http.setRequestProperty("Accept", "application/json");
+   
 
-    // Configurar para permitir enviar datos en la solicitud
-    http.setDoOutput(true);
+    Properties properties = new Properties();
 
-    // Construir el cuerpo de la solicitud en formato JSON
-    ObjectMapper objectMapper = new ObjectMapper();
-    byte[][] files = connectorRequest.getFiles();
-    String[] filesNames = connectorRequest.getFilesNames();
-
-    // Crear un objeto JSON con los campos "inputs" y "model_id"
-    ObjectNode requestBody = objectMapper.createObjectNode();
-
-
-     // Convertir el objeto JSON en una cadena
-     String requestBodyString = objectMapper.writeValueAsString(requestBody);
-
-     // Escribir los datos en el cuerpo de la solicitud
-     try (OutputStream os = http.getOutputStream()) {
-         byte[] input = requestBodyString.getBytes("utf-8");
-         os.write(input, 0, input.length);
-     }
-        
-    http.disconnect();
-    String documentInformation;
-    if (http.getResponseCode() == 200) {
-        documentInformation = convertInputStreamToString(http.getInputStream());
-        LOGGER.info("docuent information report: " + documentInformation);
-    } else {
-        LOGGER.error("Error accessing documentBase64 API: " + http.getResponseCode() + " - " + http.getResponseMessage());
-        // Throwing an exception will fail the job
-        throw new IOException(http.getResponseMessage());
+    try (FileInputStream fileInputStream = new FileInputStream("env.txt")) {
+        properties.load(fileInputStream);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
 
+    // Accede a las propiedades del archivo "application.properties" como sea necesario
+    String alfrescoUrl = properties.getProperty("alfresco.repository.url");
+    String alfrescoUser = properties.getProperty("alfresco.repository.user");
+    String alfrescoPass = properties.getProperty("alfresco.repository.pass");
+
+    // Imprime las propiedades
+    System.out.println("alfresco.repository.url: " + alfrescoUrl);
+    System.out.println("alfresco.repository.user: " + alfrescoUser);
+    System.out.println("alfresco.repository.pass: " + alfrescoPass);
+
     var result = new Base64Result();
-    result.setResult(documentInformation);
-    LOGGER.info("getting out of connector");
+
     return result;
   }
 
@@ -127,7 +112,7 @@ public class Base64Function implements OutboundConnectorFunction {
         result.append(line);
       }
     } catch (IOException ex) {
-      LOGGER.error("Error during response reading: ", ex);
+//LOGGER.error("Error during response reading: ", ex);
       return "{}";
     }
 
