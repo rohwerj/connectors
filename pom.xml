@@ -37,9 +37,29 @@
     <plugin.version.maven-jar-plugin>3.2.2</plugin.version.maven-jar-plugin>
     <plugin.version.maven-resources-plugin>3.3.0</plugin.version.maven-resources-plugin>
     <plugin.version.maven-surefire-plugin>3.0.0-M7</plugin.version.maven-surefire-plugin>
+    <version.google-libraries-bom>26.25.0</version.google-libraries-bom>
   </properties>
 
+<dependencyManagement>
+    <dependencies>
+      <!-- Third party dependencies -->
+      <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>libraries-bom</artifactId>
+        <version>${version.google-libraries-bom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+
   <dependencies>
+
+  <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-secretmanager</artifactId>
+    </dependency>
 	  <dependency>
       <groupId>com.co.igg.catastro.common</groupId>
       <artifactId>igg-catastro-common</artifactId>
