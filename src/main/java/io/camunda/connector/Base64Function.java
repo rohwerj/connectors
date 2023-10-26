@@ -53,12 +53,12 @@ import jakarta.annotation.PostConstruct;
         name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda:upload-document:1")
 public class Base64Function implements OutboundConnectorFunction {
 
-    private Session session;
+    /* private Session session; */
 
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
 
-  @PostConstruct
+/*   @PostConstruct
   public void init()
   {
 
@@ -75,7 +75,7 @@ public class Base64Function implements OutboundConnectorFunction {
       SessionFactory factory = SessionFactoryImpl.newInstance();
       session = factory.getRepositories(parameter).get(0).createSession();
 
-  }
+  } */
 
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
