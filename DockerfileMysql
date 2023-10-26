@@ -1,0 +1,4 @@
+FROM mysql:5.7
+ENV MYSQL_DATABASE=catastro
+ENV MYSQL_ROOT_PASSWORD=admin
+COPY MySql/Dump20230920.sql /docker-entrypoint-initdb.d/
