@@ -1,18 +1,25 @@
-FROM jfparrado/maven-3.9.3:latest AS build3
-# Directorio de trabajo
-WORKDIR /opt/app
+# FROM jfparrado/maven-3.9.3:latest AS build3
+# # Directorio de trabajo
+# WORKDIR /opt/app
 
-# Copia el archivo JAR al contenedor
-COPY src src
-COPY pom.xml pom.xml
-# Copia el archivo de entorno (env.txt) al contenedor
-COPY env.txt env.txt
-RUN mvn -f pom.xml clean install
+# # Copia el archivo JAR al contenedor
+# COPY src src
+# COPY pom.xml pom.xml
+# # Copia el archivo de entorno (env.txt) al contenedor
+# COPY env.txt env.txt
+# RUN mvn -f pom.xml clean install
 
 # Usa una imagen base que contenga Java
 FROM camunda/connectors-bundle:0.2.0
 WORKDIR /opt/app
+
+#para hacerlo completo
+#COPY --from=build3 /target/*.jar connector.jar
+
+#para velocidad
+COPY env.txt env.txt
 COPY target/*.jar connector.jar
+
 
 # Define las variables de entorno según el archivo env.txt
 ENV FILE_ENV env.txt

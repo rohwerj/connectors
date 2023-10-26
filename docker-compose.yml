@@ -48,6 +48,16 @@ services:
     build:
       dockerfile: DockerfileUAlfresco
     container_name: connectors
+    environment:
+      zeebe.client.cloud.cluster-id: ${cluster_id}
+      zeebe.client.cloud.client-id: ${client_id}
+      zeebe.client.cloud.client-secret: ${client_secret}
+      zeebe.client.cloud.region: ${region}
+      CONNECTOR_UploadToAlfresco_FUNCTION: ${CONNECTOR_UploadToAlfresco_FUNCTION}
+      CONNECTOR_UploadToAlfresco_TYPE: ${CONNECTOR_UploadToAlfresco_TYPE}
+      alfresco.repository.url: ${alfresco_url}
+      alfresco.repository.user: ${alfresco_user}
+      alfresco.repository.pass: ${alfresco_pass}
     networks:
       - mybridge
     depends_on:
