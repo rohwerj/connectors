@@ -1,21 +1,22 @@
-# Usa una imagen base que contenga Java
-FROM camunda/connectors-bundle:0.2.0
-
+FROM jfparrado/maven-3.9.3:latest AS build3
 # Directorio de trabajo
 WORKDIR /opt/app
 
 # Copia el archivo JAR al contenedor
-COPY target/document-base64-api-0.1.0-SNAPSHOT.jar connector.jar
-
+COPY src src
+COPY pom.xml pom.xml
 # Copia el archivo de entorno (env.txt) al contenedor
 COPY env.txt env.txt
+RUN mvn -f pom.xml clean install
 
-# Comando para ejecutar la aplicación
-CMD ["java", "-jar", "connector.jar"]
+# Usa una imagen base que contenga Java
+FROM camunda/connectors-bundle:0.2.0
+WORKDIR /opt/app
+COPY target/*.jar connector.jar
 
 # Define las variables de entorno según el archivo env.txt
-ENV FILE_ENV /opt/app/env.txt
+ENV FILE_ENV env.txt
 RUN env $(cat $FILE_ENV | xargs) 
 
 # Limpia después de la ejecución
-RUN rm $FILE_ENV
+#RUN rm $FILE_ENV

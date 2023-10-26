@@ -44,6 +44,17 @@ services:
       - '3306'
     networks:
       - mybridge
+  connectors:
+    build:
+      dockerfile: DockerfileUAlfresco
+    container_name: connectors
+    networks:
+      - mybridge
+    depends_on:
+      - alfresco
+      - mysql
+    command: ["java", "-jar", "connector.jar"]
+
 
 networks:
   mybridge:
