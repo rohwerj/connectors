@@ -52,7 +52,7 @@
     },
     {
       "type": "Hidden",
-      "value": "io.camunda:document-api:1",
+      "value": "io.camunda:upload-document:1",
       "binding": {
         "type": "zeebe:taskDefinition:type"
       }

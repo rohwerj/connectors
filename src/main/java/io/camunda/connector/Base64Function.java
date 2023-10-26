@@ -50,7 +50,7 @@ import io.camunda.interfaces.IProcesoService;
 import jakarta.annotation.PostConstruct;
 
 @OutboundConnector(
-        name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda::upload-document:1")
+        name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda:upload-document:1")
 public class Base64Function implements OutboundConnectorFunction {
 
     private Session session;
