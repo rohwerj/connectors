@@ -104,6 +104,7 @@ public class Base64Function implements OutboundConnectorFunction {
 				            for (MultipartFile multipartFile : multipartFiles) {
 				                String fileName = multipartFile.getOriginalFilename();
 LOGGER.info("filename: {}",fileName);
+LOGGER.info("inputstream: {}",multipartFile.getInputStream());
 								}
 				            }
 
@@ -121,7 +122,7 @@ LOGGER.info("filename: {}",fileName);
     }
   
         for (int i = 0; i < fileBytesArray.length; i++) {
-            CustomMultipartFile mockMultipartFile = new CustomMultipartFile(fileBytesArray[i], fileNamesArray[i]);
+            CustomMultipartFile mockMultipartFile = new CustomMultipartFile(fileBytesArray[i], fileNamesArray[i], fileNamesArray[i]);
             LOGGER.info("mockMultipartFile filename: {}",mockMultipartFile.getName());
             recreatedFiles.add(mockMultipartFile);
         }

@@ -11,76 +11,70 @@ import org.springframework.web.multipart.MultipartFile;
 public class CustomMultipartFile implements MultipartFile {
 
 	private byte[] bytes;
-    String name;
-    String originalFilename;
-    String contentType;
-    boolean isEmpty=false;
-    long size;
+	private String name;
+    private String originalFilename;
+    private String contentType="image/jpeg";
+    private boolean isEmpty=false;
+    private long size=269592L;
 
-	public CustomMultipartFile(byte[] bytes, String name, String originalFilename, String contentType, boolean isEmpty,
-            long size) {
+    public CustomMultipartFile(byte[] bytes, String name, String originalFilename) {
         this.bytes = bytes;
         this.name = name;
         this.originalFilename = originalFilename;
-        this.contentType = contentType;
-        this.isEmpty = isEmpty;
-        this.size = size;
+    }
+
+    @Override
+	public byte[] getBytes() {
+        return bytes;
     }
 
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
+    @Override
+    public String getName() {
+        return name;
+    }
+    @Override
+    public String getOriginalFilename() {
+        return originalFilename;
+    }
 
     public void setOriginalFilename(String originalFilename) {
         this.originalFilename = originalFilename;
     }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public void setEmpty(boolean isEmpty) {
-        this.isEmpty = isEmpty;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
-    }
-
-    public void setName(String name) {
-		this.name = name;
-	}
-	
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return name;
-	}
-	
-	@Override
-	public String getOriginalFilename() {
-		// TODO Auto-generated method stub
-		return name;
-	}
-
     @Override
     public String getContentType() {
         return contentType;
     }
 
-	@Override
-	public boolean isEmpty() {
-		return bytes == null || bytes.length == 0;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+    @Override
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public void setEmpty(boolean isEmpty) {
+        this.isEmpty = isEmpty;
+    }
+    @Override
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+    
+    public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
-	public long getSize() {
-		return bytes.length;
-	}
-
-	@Override
-	public byte[] getBytes() throws IOException {
-		return bytes;
+	public InputStream getInputStream() throws IOException {
+		return new ByteArrayInputStream(bytes);
 	}
 
 	@Override
