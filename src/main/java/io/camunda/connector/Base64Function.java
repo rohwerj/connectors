@@ -74,10 +74,10 @@ public class Base64Function implements OutboundConnectorFunction {
 
       parameter.put(SessionParameter.USER, "admin");
       parameter.put(SessionParameter.PASSWORD, "admin");
-      parameter.put(SessionParameter.BROWSER_URL, "http://alfresco:8080/alfresco/api/-default-/public/cmis/versions/1.1/browser");
+      parameter.put(SessionParameter.BROWSER_URL, "http://192.168.6.33:8080/alfresco/api/-default-/public/cmis/versions/1.1/browser");
       parameter.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
       SessionFactory factory = SessionFactoryImpl.newInstance();
-     // session = factory.getRepositories(parameter).get(0).createSession();
+      session = factory.getRepositories(parameter).get(0).createSession();
 
   }
 
