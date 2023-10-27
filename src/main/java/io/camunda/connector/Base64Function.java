@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
 import io.camunda.dao.IDocumentProcessDao;
 import io.camunda.interfaces.IProcesoService;
+import io.camunda.models.CustomMultipartFile;
 import jakarta.annotation.PostConstruct;
 
 @OutboundConnector(
@@ -92,31 +94,40 @@ public class Base64Function implements OutboundConnectorFunction {
       LOGGER.info("User: {}",System.getenv("alfresco.repository.user"));
       LOGGER.info("Pass: {}",System.getenv("alfresco.repository.pass"));
       LOGGER.info("Url: {}",alfrescoBrowserUrl);
+      LOGGER.info("String: {}",connectorRequest.toString());
+      String[] filesNames= connectorRequest.getFilesNames();
+      byte[][] files= connectorRequest.getFiles();
+      List<MultipartFile> multipartFiles = convertBytesToMultipartFiles(files, filesNames);
+
+      if (null != multipartFiles && multipartFiles.size() > 0) 
+				        {
+				            for (MultipartFile multipartFile : multipartFiles) {
+				                String fileName = multipartFile.getOriginalFilename();
+LOGGER.info("filename: {}",fileName);
+								}
+				            }
+
+				        
     var result = new Base64Result();
     LOGGER.info("getting out of connector");
     return result;
   }
 
-  /**
-   * Reads the input stream line-by-line and returns its content in <code>String</code> representation.
-   *
-   * @param inputStream input stream to convert.
-   * @return converted <code>InputStream</code> content.
-   * @throws IllegalArgumentException in case if input stream is unable to be read.
-   */
-  private static String convertInputStreamToString(InputStream inputStream) {
-    StringBuilder result = new StringBuilder();
-
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-      String line;
-      while ((line = reader.readLine()) != null) {
-        result.append(line);
-      }
-    } catch (IOException ex) {
-      LOGGER.error("Error during response reading: ", ex);
-      return "{}";
+  
+    private List<MultipartFile> convertBytesToMultipartFiles(byte[][] fileBytesArray, String[] fileNamesArray) {
+        List<MultipartFile> recreatedFiles = new ArrayList<>();
+        for (String fileName : fileNamesArray) {
+        LOGGER.info("Nombre de archivo: " + fileName);
     }
-
-    return result.toString();
-  }
+  
+        for (int i = 0; i < fileBytesArray.length; i++) {
+            CustomMultipartFile mockMultipartFile = new CustomMultipartFile(fileBytesArray[i], fileNamesArray[i]);
+            LOGGER.info("mockMultipartFile filename: {}",mockMultipartFile.getName());
+            recreatedFiles.add(mockMultipartFile);
+        }
+        for (MultipartFile file : recreatedFiles) {
+          LOGGER.info("Nombre del archivo: " + file.getOriginalFilename());
+      }
+        return recreatedFiles;
+    }
 }
