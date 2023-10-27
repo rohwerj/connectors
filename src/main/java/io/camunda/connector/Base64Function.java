@@ -71,7 +71,9 @@ public class Base64Function implements OutboundConnectorFunction {
 
       parameter.put(SessionParameter.BROWSER_URL, alfrescoBrowserUrl);
       parameter.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
-
+      LOGGER.info("User: {}",System.getenv("alfresco.repository.user"));
+      LOGGER.info("Pass: {}",System.getenv("alfresco.repository.pass"));
+      LOGGER.info("Url: {}",alfrescoBrowserUrl);
       SessionFactory factory = SessionFactoryImpl.newInstance();
       /* session = factory.getRepositories(parameter).get(0).createSession(); */
 
@@ -86,7 +88,10 @@ public class Base64Function implements OutboundConnectorFunction {
 
   private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
     LOGGER.info("Executing my connector alfresco with request");
-    
+       String alfrescoBrowserUrl = System.getenv("alfresco.repository.url") + "/api/-default-/public/cmis/versions/1.1/browser";
+      LOGGER.info("User: {}",System.getenv("alfresco.repository.user"));
+      LOGGER.info("Pass: {}",System.getenv("alfresco.repository.pass"));
+      LOGGER.info("Url: {}",alfrescoBrowserUrl);
     var result = new Base64Result();
     LOGGER.info("getting out of connector");
     return result;
