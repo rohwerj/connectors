@@ -8,8 +8,15 @@ public class Base64Request {
 
 	private String[] filesNames;
 	private byte[][] files;
+	private Long idProceso;
   
-  	public String[] getFilesNames() {
+  	public Long getIdProceso() {
+		return idProceso;
+	}
+	public void setIdProceso(Long idProceso) {
+		this.idProceso = idProceso;
+	}
+	public String[] getFilesNames() {
   		return filesNames;
 	}
 	public void setFilesNames(String[] filesNames) {
@@ -23,7 +30,8 @@ public class Base64Request {
 	}
 	@Override
 	public String toString() {
-		return "Base64Request [filesNames=" + Arrays.toString(filesNames) + ", files=" + Arrays.toString(files) + "]";
+		return "Base64Request [filesNames=" + Arrays.toString(filesNames) + ", files=" + Arrays.toString(files)
+				+ ", idProceso=" + idProceso + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -31,6 +39,7 @@ public class Base64Request {
 		int result = 1;
 		result = prime * result + Arrays.hashCode(filesNames);
 		result = prime * result + Arrays.deepHashCode(files);
+		result = prime * result + ((idProceso == null) ? 0 : idProceso.hashCode());
 		return result;
 	}
 	@Override
@@ -45,6 +54,11 @@ public class Base64Request {
 		if (!Arrays.equals(filesNames, other.filesNames))
 			return false;
 		if (!Arrays.deepEquals(files, other.files))
+			return false;
+		if (idProceso == null) {
+			if (other.idProceso != null)
+				return false;
+		} else if (!idProceso.equals(other.idProceso))
 			return false;
 		return true;
 	}

@@ -48,6 +48,7 @@ import org.apache.chemistry.opencmis.commons.enums.VersioningState;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
+import org.apache.commons.io.FileExistsException;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -86,10 +87,9 @@ import io.camunda.cmis.CmisService;
 import jakarta.annotation.PostConstruct;
 
 @OutboundConnector(
-        name = "UploadToAlfresco", inputVariables = {"files", "filesNames"}, type = "io.camunda:upload-document:1")
+        name = "UploadToAlfresco", inputVariables = {"files", "filesNames", "idProceso"}, type = "io.camunda:upload-document:1")
 public class Base64Function implements OutboundConnectorFunction {
 
-  private Session session;
   private CmisService cmisService;
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
 
@@ -102,13 +102,10 @@ public class Base64Function implements OutboundConnectorFunction {
 
   private Base64Result executeConnector(final Base64Request connectorRequest) throws IOException {
     LOGGER.info("Executing my connector alfresco with request");
-       String alfrescoBrowserUrl = System.getenv("alfresco.repository.url") + "/api/-default-/public/cmis/versions/1.1/browser";
-      LOGGER.info("User: {}",System.getenv("alfresco.repository.user"));
-      LOGGER.info("Pass: {}",System.getenv("alfresco.repository.pass"));
-      LOGGER.info("Url: {}",alfrescoBrowserUrl);
       LOGGER.info("String: {}",connectorRequest.toString());
       String[] filesNames= connectorRequest.getFilesNames();
       byte[][] files= connectorRequest.getFiles();
+      Long idProceso= connectorRequest.getIdProceso();
       List<MultipartFile> multipartFiles = convertBytesToMultipartFiles(files, filesNames);
 
       if (null != multipartFiles && multipartFiles.size() > 0) {
@@ -116,16 +113,16 @@ public class Base64Function implements OutboundConnectorFunction {
     	        String fileName = multipartFile.getOriginalFilename();
     	        LOGGER.info("filename: {}", fileName);
     	        LOGGER.info("inputstream: {}", multipartFile.getInputStream());
-//			      try {
-//			        Document docCreated=cmisService.uploadDocumentToAlfresco( fileName,  multipartFile, Long.parseLong(respuesta) );
-//			        if(docCreated==null){
-//			          throw new FileExistsException("El archivo ya existe en la base de datos.");
-//			        }
-//			//											String docInB64=procesarDocumentos.getInformationFromFile(docCreated);
-//			      } catch (NumberFormatException | IOException | SAXException | TikaException e) {
-//			        // TODO Auto-generated catch block
-//			        e.printStackTrace();
-//			      }
+			  /*     try {
+			        Document docCreated=cmisService.uploadDocumentToAlfresco( fileName,  multipartFile, idProceso );
+			        if(docCreated==null){
+			          throw new FileExistsException("El archivo ya existe en la base de datos.");
+			        }
+			//											String docInB64=procesarDocumentos.getInformationFromFile(docCreated);
+			      } catch (NumberFormatException | IOException | SAXException | TikaException e) {
+			        // TODO Auto-generated catch block
+			        e.printStackTrace();
+			      } */
     	    }
     	}
     var result = new Base64Result();
@@ -136,18 +133,10 @@ public class Base64Function implements OutboundConnectorFunction {
  
     private List<MultipartFile> convertBytesToMultipartFiles(byte[][] fileBytesArray, String[] fileNamesArray) {
         List<MultipartFile> recreatedFiles = new ArrayList<>();
-        for (String fileName : fileNamesArray) {
-        LOGGER.info("Nombre de archivo: " + fileName);
-    }
-  
         for (int i = 0; i < fileBytesArray.length; i++) {
             CustomMultipartFile mockMultipartFile = new CustomMultipartFile(fileBytesArray[i], fileNamesArray[i], fileNamesArray[i]);
-            LOGGER.info("mockMultipartFile filename: {}",mockMultipartFile.getName());
             recreatedFiles.add(mockMultipartFile);
         }
-        for (MultipartFile file : recreatedFiles) {
-          LOGGER.info("Nombre del archivo: " + file.getOriginalFilename());
-      }
         return recreatedFiles;
     }
 }
