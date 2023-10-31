@@ -1,4 +1,4 @@
-package io.camunda.cmis;
+package io.camunda.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,11 +67,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import io.camunda.connector.Base64Function;
 import io.camunda.dao.IDocumentProcessDao;
+import io.camunda.interfaces.ICmisService;
 import io.camunda.interfaces.IDocumentProcess;
 import io.camunda.interfaces.IProcesoService;
-import io.camunda.services.ICmisService;
 import jakarta.annotation.PostConstruct;
 /**
  * CMIS Service to handle operations within the session.
@@ -91,7 +90,7 @@ public class CmisService implements ICmisService{
 	private Session session;
 
 
-	  private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
+	  private static final Logger LOGGER = LoggerFactory.getLogger(CmisService.class);
 
 	  @PostConstruct
 	  public void init()
@@ -460,7 +459,7 @@ public class CmisService implements ICmisService{
       return fullUrl;
   }
 
-  public Document uploadDocumentToAlfrescoFromMultipartFile(Folder folder, String documentName, MultipartFile multipartFile, Long id) throws IOException, SAXException, TikaException {
+  public Document uploadDocumentToAlfrescoFromMultipartFile(Folder folder, String documentName, MultipartFile multipartFile, Long id) throws IOException {
   	Document documentCreated=null;
   	try {
           // Comprobar si ya existe un documento con el mismo nombre en la carpeta
@@ -505,13 +504,13 @@ public class CmisService implements ICmisService{
 		return documentCreated;
   }
   public Document uploadDocumentToAlfresco(String documentName, MultipartFile multipartFile, Long id)
-            throws IOException, SAXException, TikaException {
+            throws IOException{
         // Luego de buscar el objeto, continúas con el resto del código de uploadDocument
 		createWholeTree("Sites", "catastro-mutaciones", "documentLibrary", "Mutaciones-Primera-Clase");
         Folder folder = getDocLibFolder("catastro-mutaciones", "/Mutaciones-Primera-Clase");
         return uploadDocumentToAlfrescoFromMultipartFile(folder, documentName, multipartFile, id);
-    }
-  public void uploadDocumentToALfrescoFromFile(Folder folder, File file, String id) throws IOException, SAXException, TikaException {
+  }
+  public void uploadDocumentToALfrescoFromFile(Folder folder, File file, String id) throws IOException {
       try {
       	DocumentoProceso documentoActualizar = this.documentProcess.findDocumentoProcesoById(id);
       	Document documentCreated=null;
@@ -553,37 +552,33 @@ public class CmisService implements ICmisService{
 
   }
 
-  public static class FileContentTypeExample {
-    private static final Map<String, String> MIME_TYPES = new HashMap<>();
-
-    static {
-        // Mapea extensiones de archivo a tipos MIME
-        MIME_TYPES.put("txt", "text/plain");
-        MIME_TYPES.put("pdf", "application/pdf");
-        MIME_TYPES.put("jpg", "image/jpeg");
-        // Agrega más extensiones y tipos MIME según sea necesario
-    }
-
-    public static String getContentType(File file) {
-        String fileName = file.getName();
-        int lastDotIndex = fileName.lastIndexOf('.');
-        if (lastDotIndex != -1 && lastDotIndex < fileName.length() - 1) {
-            String fileExtension = fileName.substring(lastDotIndex + 1).toLowerCase();
-            return MIME_TYPES.getOrDefault(fileExtension, "application/octet-stream");
-        } else {
-            // Si no se encuentra la extensión, se usa un tipo MIME genérico
-            return "application/octet-stream";
-        }
-    }
-
-    public static void main(String[] args) {
-        File file = new File("ruta/al/archivo.pdf");
-        String contentType = getContentType(file);
-        System.out.println("Tipo de contenido: " + contentType);
-    }
-}
-
-
-
-  
+	  public static class FileContentTypeExample {
+		    private static final Map<String, String> MIME_TYPES = new HashMap<>();
+		
+		    static {
+		        // Mapea extensiones de archivo a tipos MIME
+		        MIME_TYPES.put("txt", "text/plain");
+		        MIME_TYPES.put("pdf", "application/pdf");
+		        MIME_TYPES.put("jpg", "image/jpeg");
+		        // Agrega más extensiones y tipos MIME según sea necesario
+		    }
+		
+		    public static String getContentType(File file) {
+		        String fileName = file.getName();
+		        int lastDotIndex = fileName.lastIndexOf('.');
+		        if (lastDotIndex != -1 && lastDotIndex < fileName.length() - 1) {
+		            String fileExtension = fileName.substring(lastDotIndex + 1).toLowerCase();
+		            return MIME_TYPES.getOrDefault(fileExtension, "application/octet-stream");
+		        } else {
+		            // Si no se encuentra la extensión, se usa un tipo MIME genérico
+		            return "application/octet-stream";
+		        }
+		    }
+		
+		    public static void main(String[] args) {
+		        File file = new File("ruta/al/archivo.pdf");
+		        String contentType = getContentType(file);
+		        System.out.println("Tipo de contenido: " + contentType);
+		    }
+	}
 }

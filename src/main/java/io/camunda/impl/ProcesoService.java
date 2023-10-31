@@ -16,7 +16,7 @@ import io.camunda.dao.IProcesoInteresadoDao;
 import io.camunda.interfaces.IProcesoService;
 
 @Service
-public class ProcesoServiceImpl implements IProcesoService{
+public class ProcesoService implements IProcesoService{
 	
 	@Autowired
 	private IProcesoDao procesoDao;

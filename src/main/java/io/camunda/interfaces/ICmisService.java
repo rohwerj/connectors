@@ -1,4 +1,4 @@
-package io.camunda.services;
+package io.camunda.interfaces;
 
 import java.io.IOException;
 
