@@ -10,4 +10,6 @@ import org.xml.sax.SAXException;
 
 public interface ICmisService {
 	public Folder getDocLibFolder( String siteName, String folder);
+
+	public Document uploadDocumentToAlfresco(String fileName, MultipartFile multipartFile, Long idProceso) throws Exception;
 }

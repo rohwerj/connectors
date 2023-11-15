@@ -78,7 +78,7 @@ import jakarta.annotation.PostConstruct;
  * @author 
  *
  */
-@Service
+@Service("cmisService")
 public class CmisService implements ICmisService{
 	
 	@Autowired
@@ -504,7 +504,7 @@ public class CmisService implements ICmisService{
 		return documentCreated;
   }
   public Document uploadDocumentToAlfresco(String documentName, MultipartFile multipartFile, Long id)
-            throws IOException{
+            throws Exception{
         // Luego de buscar el objeto, continúas con el resto del código de uploadDocument
 		createWholeTree("Sites", "catastro-mutaciones", "documentLibrary", "Mutaciones-Primera-Clase");
         Folder folder = getDocLibFolder("catastro-mutaciones", "/Mutaciones-Primera-Clase");
