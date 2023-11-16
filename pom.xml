@@ -21,7 +21,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- connector SDK version -->
-    <version.connector-core>0.2.1</version.connector-core>
+    <version.connector-core>8.3.1</version.connector-core>
 
     <!-- external libraries -->
     <version.assertj>3.23.1</version.assertj>
@@ -34,7 +34,7 @@
     <plugin.version.maven-compiler-plugin>3.10.1</plugin.version.maven-compiler-plugin>
     <plugin.version.maven-dependency-plugin>3.3.0</plugin.version.maven-dependency-plugin>
     <plugin.version.maven-install-plugin>3.0.1</plugin.version.maven-install-plugin>
-    <plugin.version.maven-jar-plugin>3.2.2</plugin.version.maven-jar-plugin>
+    <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
     <plugin.version.maven-resources-plugin>3.3.0</plugin.version.maven-resources-plugin>
     <plugin.version.maven-surefire-plugin>3.0.0-M7</plugin.version.maven-surefire-plugin>
     <version.google-libraries-bom>26.25.0</version.google-libraries-bom>
@@ -146,6 +146,39 @@
 			<artifactId>igg-catastro-alfresco-upload</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+
+
+    <dependency>
+      <groupId>io.camunda.connector</groupId>
+      <artifactId>connector-runtime-spring</artifactId>
+      <version>8.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>io.camunda.spring</groupId>
+      <artifactId>spring-boot-starter-camunda</artifactId>
+      <version>8.3.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.camunda</groupId>
+      <artifactId>camunda-operate-client-java</artifactId>
+      <version>8.3.0.1</version>
+
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
@@ -176,7 +209,7 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>${plugin.version.maven-jar-plugin}</version>
           <configuration>
-            <useDefaultManifestFile>false</useDefaultManifestFile>
+            <useDefaultManifestFile>false</useDefaultManifestFile>    
           </configuration>
         </plugin>
         <plugin>
@@ -189,6 +222,93 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${plugin.version.maven-surefire-plugin}</version>
         </plugin>
+        <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>io.camunda.connector.bundle.ConnectorRuntimeApplication</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${version.spring-boot}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <shadedArtifactAttached>true</shadedArtifactAttached>
+          <shadedClassifierName>with-dependencies</shadedClassifierName>
+          <!-- no need for this since we are not consuming this artifact downstream -->
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+          <transformers>
+            <!-- This is needed if you have dependencies that use Service Loader. Most Google Cloud client libraries does. -->
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+            <!-- This is needed to not repeat licenses in the META-INF directory -->
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
+            <!-- This is needed to merge existing NOTICE files and keep them downstream -->
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+              <addHeader>false</addHeader>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring.handlers</resource>
+            </transformer>
+            <transformer
+              implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+              <resource>META-INF/spring.factories</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring-autoconfigure-metadata.properties</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>
+                META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+              </resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring.schemas</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/additional-spring-configuration-metadata.json</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring.tooling</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring-configuration-metadata.json</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/io.netty.versions.properties</resource>
+            </transformer>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <mainClass>io.camunda.connector.bundle.ConnectorRuntimeApplication</mainClass>
+            </transformer>
+          </transformers>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       </plugins>
     </pluginManagement>
   </build>

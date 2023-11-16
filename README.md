@@ -2,7 +2,7 @@
 
 This is a tutorial to configure and run the project in the root folder. Make sure to follow these steps for a successful execution.
 ## Requirements
-Have in you desktop camunda modeler installed. 
+Have in you desktop camunda modeler installed.
 Download it in: https://camunda.com/download/modeler/
 
 ## Steps
@@ -85,8 +85,8 @@ To test the project, follow these steps:
 3. A "Run Model" dialog will appear. Here, you need to provide the required variables in JSON format. Use the following JSON structure:
 
 {
-        "inputs": "<imageinb64>", 
+        "inputs": "<imageinb64>",
         "model_id": "santiagoperezs/notificacion-aviso-donut-cord"
 }
 
-# To start different process go to the folder start process and follow the instructions in the readme 
+# To start different process go to the folder start process and follow the instructions in the readme
