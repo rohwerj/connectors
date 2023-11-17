@@ -3,12 +3,15 @@ package io.camunda.connector;
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
+import io.camunda.impl.CmisService;
+import io.camunda.interfaces.ICmisService;
 import io.camunda.models.CustomMultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,27 +21,28 @@ import org.springframework.web.multipart.MultipartFile;
     inputVariables = {"files", "filesNames", "idProceso"},
     type = "io.camunda:upload-document:1")
 public class Base64Function implements OutboundConnectorFunction {
-
   //	@Autowired
   //	private ProcesarDocumentos procesarDocumentos;
 
   //	@Autowired
   //	@Qualifier("cmisService")
-  /* private ICmisService cmisService;
+  //@Autowired
+  private ICmisService cmisService;
 
   @Autowired
-  public Base64Function(CmisService cmisService ) {
-  	super();
+  public Base64Function(ICmisService cmisService ) {
   	this.cmisService = cmisService;
-  } */
+  }
   //	@PostConstruct
   //    void init() {
   //    }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Base64Function.class);
+  
 
   @Override
   public Object execute(OutboundConnectorContext context) throws Exception {
+    LOGGER.info("this: {}",this.cmisService);
     var connectorRequest = context.bindVariables(Base64Request.class);
     return executeConnector(connectorRequest);
   }
@@ -47,8 +51,7 @@ public class Base64Function implements OutboundConnectorFunction {
 
     LOGGER.info("Executing my connector alfresco with request");
     LOGGER.info("String: {}", connectorRequest.toString());
-    // CmisService cmisService= new CmisService();
-    // LOGGER.info("this: {}",this.cmisService);
+    LOGGER.info("this: {}",this.cmisService);
     String[] filesNames = connectorRequest.getFilesNames();
     byte[][] files = connectorRequest.getFiles();
     Long idProceso = connectorRequest.getIdProceso();
