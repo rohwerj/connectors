@@ -24,6 +24,9 @@ import io.camunda.connector.runtime.core.secret.SecretProviderAggregator;
 import io.camunda.connector.runtime.core.secret.SecretProviderDiscovery;
 import io.camunda.connector.runtime.env.SpringEnvironmentSecretProvider;
 import io.camunda.connector.runtime.outbound.OutboundConnectorRuntimeConfiguration;
+import io.camunda.impl.CmisService;
+import io.camunda.interfaces.ICmisService;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +45,7 @@ import org.springframework.core.env.Environment;
 
 @AutoConfiguration
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
-@Import(OutboundConnectorRuntimeConfiguration.class)
+//@Import(OutboundConnectorRuntimeConfiguration.class)
 @EnableConfigurationProperties(ConnectorProperties.class)
 public class OutboundConnectorsAutoConfiguration {
 
@@ -56,13 +59,14 @@ public class OutboundConnectorsAutoConfiguration {
       LoggerFactory.getLogger(OutboundConnectorsAutoConfiguration.class);
 
   /** Provides a {@link FeelEngineWrapper} unless already present in the Spring Context */
-  @Bean
+/*   @Bean
   @ConditionalOnMissingBean(FeelEngineWrapper.class)
   public FeelEngineWrapper feelEngine() {
     return new FeelEngineWrapper();
-  }
+  } */
 
-  @Bean
+
+  /* @Bean
   @ConditionalOnMissingBean
   public SecretProviderAggregator springSecretProviderAggregator(
       Optional<List<SecretProvider>> secretProviderBeans) {
@@ -74,8 +78,8 @@ public class OutboundConnectorsAutoConfiguration {
       secretProviders.addAll(discoveredSecretProviders);
     }
     return new SecretProviderAggregator(secretProviders);
-  }
-
+  } */
+/* 
   @Bean
   @ConditionalOnProperty(
       name = "camunda.connector.secretprovider.environment.enabled",
@@ -83,7 +87,7 @@ public class OutboundConnectorsAutoConfiguration {
       matchIfMissing = true)
   public SpringEnvironmentSecretProvider defaultSecretProvider(Environment environment) {
     return new SpringEnvironmentSecretProvider(environment, environmentSecretProviderPrefix);
-  }
+  } */
 
   @Bean
   @ConditionalOnMissingBean
