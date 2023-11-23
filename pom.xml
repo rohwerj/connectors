@@ -183,7 +183,7 @@
     <dependency>
       <groupId>io.camunda.connector</groupId>
       <artifactId>spring-boot-starter-camunda-connectors</artifactId>
-      <version>0.23.0</version>
+      <version>8.3.1</version>
     </dependency>
 
   </dependencies>
