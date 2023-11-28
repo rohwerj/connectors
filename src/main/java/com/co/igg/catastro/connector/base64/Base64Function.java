@@ -1,11 +1,10 @@
-package io.camunda.connector;
+package com.co.igg.catastro.connector.base64;
 
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
-import io.camunda.impl.CmisService;
-import io.camunda.interfaces.ICmisService;
-import io.camunda.models.CustomMultipartFile;
+import com.co.igg.catastro.connector.interfaces.ICmisService;
+import com.co.igg.catastro.connector.models.CustomMultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

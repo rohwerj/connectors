@@ -1,12 +1,12 @@
-package io.camunda.impl;
+package com.co.igg.catastro.connector.impl;
 
-import com.co.igg.catastro.common.models.Documento;
-import com.co.igg.catastro.common.models.Proceso;
-import com.co.igg.catastro.common.models.ProcesoInteresado;
-import io.camunda.dao.IDocumentoDao;
-import io.camunda.dao.IProcesoDao;
-import io.camunda.dao.IProcesoInteresadoDao;
-import io.camunda.interfaces.IProcesoService;
+import com.co.igg.catastro.connector.models.Documento;
+import com.co.igg.catastro.connector.models.Proceso;
+import com.co.igg.catastro.connector.models.ProcesoInteresado;
+import com.co.igg.catastro.connector.dao.IDocumentoDao;
+import com.co.igg.catastro.connector.dao.IProcesoDao;
+import com.co.igg.catastro.connector.dao.IProcesoInteresadoDao;
+import com.co.igg.catastro.connector.interfaces.IProcesoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

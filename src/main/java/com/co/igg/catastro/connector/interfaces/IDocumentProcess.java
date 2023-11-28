@@ -1,6 +1,6 @@
-package io.camunda.interfaces;
+package com.co.igg.catastro.connector.interfaces;
 
-import com.co.igg.catastro.common.models.DocumentoProceso;
+import com.co.igg.catastro.connector.models.DocumentoProceso;
 
 public interface IDocumentProcess {
 

@@ -1,7 +1,7 @@
-package io.camunda.impl;
+package com.co.igg.catastro.connector.impl;
 
-import com.co.igg.catastro.common.models.DocumentoProceso;
-import com.co.igg.catastro.common.models.Proceso;
+import com.co.igg.catastro.connector.models.DocumentoProceso;
+import com.co.igg.catastro.connector.models.Proceso;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -9,10 +9,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.camunda.dao.IDocumentProcessDao;
-import io.camunda.interfaces.ICmisService;
-import io.camunda.interfaces.IDocumentProcess;
-import io.camunda.interfaces.IProcesoService;
+import com.co.igg.catastro.connector.dao.IDocumentProcessDao;
+import com.co.igg.catastro.connector.interfaces.ICmisService;
+import com.co.igg.catastro.connector.interfaces.IDocumentProcess;
+import com.co.igg.catastro.connector.interfaces.IProcesoService;
 import jakarta.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,8 +102,8 @@ public class CmisService implements ICmisService {
         SessionParameter.BROWSER_URL,
         "http://alfresco:8080/alfresco/api/-default-/public/cmis/versions/1.1/browser");
     parameter.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
-    SessionFactory factory = SessionFactoryImpl.newInstance();
-    session = factory.getRepositories(parameter).get(0).createSession();
+//    SessionFactory factory = SessionFactoryImpl.newInstance();
+//    session = factory.getRepositories(parameter).get(0).createSession();
   }
 
   // clases del cmis

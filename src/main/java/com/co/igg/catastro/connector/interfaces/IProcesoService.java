@@ -1,8 +1,8 @@
-package io.camunda.interfaces;
+package com.co.igg.catastro.connector.interfaces;
 
-import com.co.igg.catastro.common.models.Documento;
-import com.co.igg.catastro.common.models.Proceso;
-import com.co.igg.catastro.common.models.ProcesoInteresado;
+import com.co.igg.catastro.connector.models.Documento;
+import com.co.igg.catastro.connector.models.Proceso;
+import com.co.igg.catastro.connector.models.ProcesoInteresado;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

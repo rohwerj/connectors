@@ -1,6 +1,6 @@
-package io.camunda.dao;
+package com.co.igg.catastro.connector.dao;
 
-import com.co.igg.catastro.common.models.Proceso;
+import com.co.igg.catastro.connector.models.Proceso;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

@@ -1,8 +1,8 @@
-package io.camunda.impl;
+package com.co.igg.catastro.connector.impl;
 
-import com.co.igg.catastro.common.models.DocumentoProceso;
-import io.camunda.dao.IDocumentProcessDao;
-import io.camunda.interfaces.IDocumentProcess;
+import com.co.igg.catastro.connector.models.DocumentoProceso;
+import com.co.igg.catastro.connector.dao.IDocumentProcessDao;
+import com.co.igg.catastro.connector.interfaces.IDocumentProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

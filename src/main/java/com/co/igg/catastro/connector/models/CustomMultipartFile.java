@@ -1,4 +1,4 @@
-package io.camunda.models;
+package com.co.igg.catastro.connector.models;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

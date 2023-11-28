@@ -1,4 +1,4 @@
-package io.camunda.connector;
+package com.co.igg.catastro.connector.base64;
 
 public class Base64Result {
   private String result;

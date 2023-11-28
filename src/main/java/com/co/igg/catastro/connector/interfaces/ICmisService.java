@@ -1,4 +1,4 @@
-package io.camunda.interfaces;
+package com.co.igg.catastro.connector.interfaces;
 
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;

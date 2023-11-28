@@ -1,7 +1,7 @@
-package io.camunda.utils;
+package com.co.igg.catastro.connector.utils;
 
-import io.camunda.dao.IDocumentProcessDao;
-import io.camunda.impl.CmisService;
+import com.co.igg.catastro.connector.dao.IDocumentProcessDao;
+import com.co.igg.catastro.connector.impl.CmisService;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
